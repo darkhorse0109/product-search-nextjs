@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
 
     await writeFile(filePath, buffer);
     const file_url = path.join(process.cwd(), "public/files", fileName);
-    console.log(file_url, formats)
 
     const allResults = await axios.post(
       `${env.API_ENDPOINT}/v1/parser/pdf`,

@@ -52,25 +52,29 @@ const PDFUploadAndConvert: React.FC = () => {
 
   let splitFormats: string[] = []
 
-  const downloadCSV = (data: Record<string, string>[]) => {
+  const downloadCSV = (data: Record<string, any>[]) => {
     const headers = splitFormats
 
     // Process data to handle multiple item numbers and equivalent items
     const processedData = data.flatMap(item => {
       // Split item numbers if multiple exist
-      const itemNumbers = item['型番']?.split(',').map(num => num.trim()) || ['']
+      const itemNumbers = item['型番']?.split(',').map((num: string) => num.trim()) || ['']
 
-      return itemNumbers.map((num, index) => {
+      return itemNumbers.map((num: string, index: number) => {
         const newItem = { ...item }
 
         // Format item number with index if multiple exist
         newItem['型番'] = itemNumbers.length > 1 ? `${num}(${index + 1})` : num
 
-        // Process quantity (remove units) - Add type checking
-        if (newItem['数量'] && typeof newItem['数量'] === 'string') {
-          newItem['数量'] = newItem['数量'].replace(/[^0-9.]/g, '')
+        // Process quantity - handle both string and number types
+        if (newItem['数量'] !== undefined && newItem['数量'] !== null) {
+          if (typeof newItem['数量'] === 'string') {
+            newItem['数量'] = newItem['数量'].replace(/[^0-9.]/g, '')
+          } else if (typeof newItem['数量'] === 'number') {
+            newItem['数量'] = newItem['数量'].toString()
+          }
         } else {
-          newItem['数量'] = '' // Set default value if undefined or not a string
+          newItem['数量'] = ''
         }
 
         // Handle equivalent items
@@ -85,7 +89,10 @@ const PDFUploadAndConvert: React.FC = () => {
     // Convert to CSV rows
     const csvRows = [
       headers,
-      ...processedData.map(item => headers.map(header => item[header] || ''))
+      ...processedData.map(item => headers.map(header => {
+        const value = item[header];
+        return value !== undefined && value !== null ? String(value) : '';
+      }))
     ]
 
     // Convert to CSV string
@@ -129,20 +136,33 @@ const PDFUploadAndConvert: React.FC = () => {
         },
       })
 
-      // The response.data is already parsed JSON
-      const extractedDataArray = response.data as Record<string, string>[]
+      const text = response.data;
+      let jsonString = text;
+      const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```\n([\s\S]*?)\n```/);
+      if (jsonMatch && jsonMatch[1]) {
+        jsonString = jsonMatch[1];
+      }
+
+      // Parse the JSON string into an actual array
+      let parsedData: Record<string, any>[];
+      try {
+        parsedData = JSON.parse(jsonString);
+      } catch (parseError) {
+        console.error('JSON parsing error:', parseError);
+        throw new Error('JSONデータの解析に失敗しました。')
+      }
 
       // Validate that we have an array
-      if (!Array.isArray(extractedDataArray)) {
+      if (!Array.isArray(parsedData)) {
         throw new Error('抽出されたデータが配列形式ではありません。')
       }
 
       // Validate array is not empty
-      if (extractedDataArray.length === 0) {
+      if (parsedData.length === 0) {
         throw new Error('データが抽出されませんでした。')
       }
 
-      downloadCSV(extractedDataArray)
+      downloadCSV(parsedData)
     } catch (error) {
       console.error('Error extracting data:', error)
       alert(`データの抽出中にエラーが発生しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
