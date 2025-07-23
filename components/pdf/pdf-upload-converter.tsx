@@ -123,7 +123,7 @@ const PDFUploadAndConvert: React.FC = () => {
       formData.append('pdf', pdfFile)
       formData.append('formats', JSON.stringify(splitFormats))
 
-      const response = await axios.post('/api/process-pdf', formData, {
+      const response = await axios.post('/api/parser', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
