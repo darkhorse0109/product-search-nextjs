@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Product Searcher
 
-## Getting Started
+A comprehensive Next.js application that provides product search and comparison across multiple Japanese e-commerce platforms, along with PDF to CSV conversion capabilities.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🔍 Product Search & Comparison
+- **Multi-platform Search**: Search products across Amazon, Yahoo Shopping, and Rakuten
+- **JAN Code Integration**: Automatic JAN code detection and search
+- **Price Comparison**: Compare prices across different platforms
+- **Top Products Display**: Shows the 3 cheapest products across all platforms
+- **Real-time Search**: Instant search results with React Query caching
+
+### 📄 PDF to CSV Converter
+- **PDF Upload**: Drag and drop or click to upload PDF files
+- **Custom Format Parsing**: Define custom column formats for data extraction
+- **AI-Powered Parsing**: Uses Google's Generative AI for intelligent data extraction
+- **CSV Export**: Download extracted data as CSV files
+- **Multiple Item Support**: Handles multiple item numbers and equivalent items
+
+## 🏗️ Architecture
+
+### Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **State Management**: TanStack React Query + Redux Toolkit
+- **UI Components**: Material-UI + Radix UI
+- **PDF Processing**: PDF-lib + Google Generative AI
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+- Node.js 18+ 
+- npm, yarn, or pnpm
+
+### Environment Variables
+Create a `.env.local` file in the root directory:
+
+```env
+# API Configuration
+API_ENDPOINT=http://localhost:8000
+API_TOKEN=your_api_token_here
+
+# App Configuration
+NEXT_PUBLIC_APP_ENV=development
+NEXT_PUBLIC_HOST=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation Steps
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd product-search-nextjs
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
 
-## Learn More
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your actual values
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📖 Usage
 
-## Deploy on Vercel
+### Product Search
+1. Navigate to the home page (`/`)
+2. Enter a product name or model number in the search box
+3. Click "検索" (Search) or press Enter
+4. View results from Amazon, Yahoo Shopping, and Rakuten
+5. Compare prices and find the best deals
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### PDF to CSV Conversion
+1. Navigate to `/pdf-converter`
+2. Upload a PDF file using the upload area
+3. Define the column format (e.g., "No, 品名, 型番, 数量, 単価, 金額")
+4. Click "変換する" (Convert)
+5. Download the generated CSV file
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 API Endpoints
+
+### Product Search
+- **POST** `/api/search`
+  - Searches products across multiple platforms
+  - Requires `keyword` in request body
+  - Returns product data with JAN codes
+
+### PDF Parser
+- **POST** `/api/parser`
+  - Parses PDF files and extracts structured data
+  - Requires `pdf` file and `formats` array
+  - Returns extracted data in JSON format
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Other Platforms
+- **Netlify**: Compatible with Next.js
+- **AWS Amplify**: Full support for Next.js apps
+- **Docker**: Use `Dockerfile` for containerized deployment
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
