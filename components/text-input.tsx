@@ -1,6 +1,6 @@
-import React from 'react'
-import { ThemeProvider, TextField } from '@mui/material'
-import theme from '@/lib/theme'
+import React from "react";
+import { ThemeProvider, TextField } from "@mui/material";
+import theme from "@/lib/theme";
 
 type TextInputProps = {
   value: string;
@@ -11,15 +11,20 @@ const TextInput: React.FC<TextInputProps> = ({ value, onChange }) => {
   return (
     <ThemeProvider theme={theme}>
       <TextField
-        rows={13}
+        rows={8}
         multiline
         variant="outlined"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="区別する形式を入力してください。"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            padding: "5px",
+          },
+        }}
       />
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default TextInput
+export default TextInput;
