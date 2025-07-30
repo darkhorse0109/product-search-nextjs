@@ -173,9 +173,8 @@ const PDF2CSVConverterPage: React.FC = () => {
 
       const text = results;
       let jsonString = text;
-      const jsonMatch =
-        text.match(/```json\n([\s\S]*?)\n```/) ||
-        text.match(/```\n([\s\S]*?)\n```/);
+
+      const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```\n([\s\S]*?)\n```/);
       if (jsonMatch && jsonMatch[1]) {
         jsonString = jsonMatch[1];
       }
@@ -190,16 +189,16 @@ const PDF2CSVConverterPage: React.FC = () => {
       }
 
       // Validate that we have an array
-      if (!Array.isArray(results)) {
+      if (!Array.isArray(parsedData)) {
         throw new Error("抽出されたデータが配列形式ではありません。");
       }
 
       // Validate array is not empty
-      if (results.length === 0) {
+      if (parsedData.length === 0) {
         throw new Error("データが抽出されませんでした。");
       }
 
-      downloadCSV(results);
+      downloadCSV(parsedData);
     } catch (error) {
       console.error("Error extracting data:", error);
       alert(
