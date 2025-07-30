@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { ThemeProvider, Button } from '@mui/material'
+import { ThemeProvider, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import axios from 'axios'
 import { FaFilePdf } from 'react-icons/fa6'
 import LoadingIndicator from '@/components/loading-indicator'
@@ -19,18 +19,13 @@ const WarningMessages = () => (
   </div>
 )
 
-const FormatExample = () => (
-  <div className="mt-2 text-sm pb-4 text-gray-600">
-    <p>例：No, 品名, 型番, 数量, 単価, 金額, 同等品, 原本情報</p>
-  </div>
-)
-
 const PDFUploadAndConvert: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [format, setFormat] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [pdfFile, setPdfFile] = useState<File | null>(null)
+  const [target, setTarget] = useState<string>('表分析')
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -129,6 +124,7 @@ const PDFUploadAndConvert: React.FC = () => {
       const formData = new FormData()
       formData.append('pdf', pdfFile)
       formData.append('formats', JSON.stringify(splitFormats))
+      formData.append('target', target === "表分析" ? "table" : "image")
 
       const response = await axios.post('/api/parser', formData, {
         headers: {
@@ -218,13 +214,31 @@ const PDFUploadAndConvert: React.FC = () => {
               )}
             </div>
             <div className="flex flex-col justify-evenly w-full p-6 bg-white rounded-lg shadow-md">
-              <div className="flex flex-col gap-5">
-                <h2 className="text-xl font-bold">区別する形式</h2>
+              <div className="flex flex-col gap-3">
+                <h2 className="text-xl font-bold">分析タイプ</h2>
+                <RadioGroup
+                  value={target}
+                  onChange={(e) => setTarget(e.target.value)}
+                  className="flex items-center gap-10"
+                  row
+                >
+                  <FormControlLabel
+                    value="表分析"
+                    control={<Radio />}
+                    label="表分析"
+                  />
+                  <FormControlLabel
+                    value="画像分析"
+                    control={<Radio />}
+                    label="画像分析"
+                  />
+                </RadioGroup>
+                
+                <h2 className="text-xl font-bold mt-4">区別する形式</h2>
                 <TextInput
                   value={format}
                   onChange={setFormat}
                 />
-                <FormatExample />
               </div>
               <div className="flex justify-center">
                 <Button

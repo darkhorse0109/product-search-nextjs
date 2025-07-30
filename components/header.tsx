@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FaFilePdf } from 'react-icons/fa6'
+import { FaLayerGroup } from 'react-icons/fa'
 import { ImSearch } from 'react-icons/im'
 
 const Header = () => {
@@ -24,6 +25,10 @@ const Header = () => {
             <Link href='/pdf-converter' className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${pathName === '/pdf-converter' ? 'text-blue-600 scale-105' : 'text-gray-700 hover:text-blue-600'}`}>
               <span className='text-2xl'><FaFilePdf /></span>
               <p className='ml-2 text-lg'>PDF変換</p>
+            </Link>
+            <Link href='/pattern-manager' className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${pathName === '/pattern-manager' ? 'text-blue-600 scale-105' : 'text-gray-700 hover:text-blue-600'}`}>
+              <span className='text-2xl'><FaLayerGroup /></span>
+              <p className='ml-2 text-lg'>パターン管理</p>
             </Link>
           </div>
         </div>

@@ -24,7 +24,7 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         input: {
-          padding: '10px',
+          padding: '14px',
         },
       },
     },
