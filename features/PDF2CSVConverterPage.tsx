@@ -161,7 +161,7 @@ const PDF2CSVConverterPage: React.FC = () => {
       const formData = new FormData();
       formData.append("pdf", pdfFile);
       formData.append("formats", JSON.stringify(splitFormats));
-      formData.append("target", target === "表分析" ? "table" : "image");
+      formData.append("target", target);
 
       const {
         data: { results },
@@ -171,23 +171,23 @@ const PDF2CSVConverterPage: React.FC = () => {
         },
       });
 
-      // const text = response.data;
-      // let jsonString = text;
-      // const jsonMatch =
-      //   text.match(/```json\n([\s\S]*?)\n```/) ||
-      //   text.match(/```\n([\s\S]*?)\n```/);
-      // if (jsonMatch && jsonMatch[1]) {
-      //   jsonString = jsonMatch[1];
-      // }
+      const text = results;
+      let jsonString = text;
+      const jsonMatch =
+        text.match(/```json\n([\s\S]*?)\n```/) ||
+        text.match(/```\n([\s\S]*?)\n```/);
+      if (jsonMatch && jsonMatch[1]) {
+        jsonString = jsonMatch[1];
+      }
 
-      // // Parse the JSON string into an actual array
-      // let parsedData: Record<string, any>[];
-      // try {
-      //   parsedData = JSON.parse(jsonString);
-      // } catch (parseError) {
-      //   console.error("JSON parsing error:", parseError);
-      //   throw new Error("JSONデータの解析に失敗しました。");
-      // }
+      // Parse the JSON string into an actual array
+      let parsedData: Record<string, any>[];
+      try {
+        parsedData = JSON.parse(jsonString);
+      } catch (parseError) {
+        console.error("JSON parsing error:", parseError);
+        throw new Error("JSONデータの解析に失敗しました。");
+      }
 
       // Validate that we have an array
       if (!Array.isArray(results)) {

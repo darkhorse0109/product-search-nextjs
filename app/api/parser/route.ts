@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
     const file_url = path.join(process.cwd(), "public/files", fileName);
 
     const { data: allResults } = await axios.post(
-      `${env.API_ENDPOINT}/v1/extract/table`,
-      { file_url, formats },
+      `${env.API_ENDPOINT}/v1/parser/pdf`,
+      { file_url, formats, target },
       {
         headers: {
           Authorization: `Bearer ${env.API_TOKEN}`,
