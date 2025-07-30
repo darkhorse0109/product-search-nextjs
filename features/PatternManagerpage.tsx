@@ -22,7 +22,7 @@ import { IoIosSave as SaveIcon } from "react-icons/io";
 import theme from "@/lib/theme";
 import { splitFormat, joinFormat } from "@/lib/utils";
 
-interface IPattern {
+export interface IPattern {
   id: string;
   name: string;
   value: string;
