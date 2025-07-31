@@ -127,6 +127,10 @@ const PDF2CSVConverterPage: React.FC = () => {
       .map((row) => row.map((cell: string) => `"${cell}"`).join(","))
       .join("\n");
 
+    // Generate CSV filename from PDF filename
+    const pdfFileName = pdfFile?.name || "extracted_data";
+    const csvFileName = pdfFileName.replace(/\.pdf$/i, ".csv");
+
     // Create blob and download
     const blob = new Blob(["\uFEFF" + csvContent], {
       type: "text/csv;charset=utf-8;",
@@ -134,7 +138,7 @@ const PDF2CSVConverterPage: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", "extracted_data.csv");
+    link.setAttribute("download", csvFileName);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

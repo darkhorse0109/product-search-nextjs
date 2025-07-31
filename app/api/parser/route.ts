@@ -1,8 +1,6 @@
 import axios from "axios";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { type NextRequest, NextResponse } from "next/server";
 import path from "path";
-import { PDFDocument } from "pdf-lib";
 import { writeFile } from "fs/promises";
 import { env } from "@/lib/config";
 
