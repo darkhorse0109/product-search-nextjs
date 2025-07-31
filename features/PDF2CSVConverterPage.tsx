@@ -290,12 +290,12 @@ const PDF2CSVConverterPage: React.FC = () => {
                       <FormControlLabel
                         value="表分析"
                         control={<Radio />}
-                        label="1形態"
+                        label="パターン1（標準）"
                       />
                       <FormControlLabel
                         value="画像分析"
                         control={<Radio />}
-                        label="2形態"
+                        label="パターン2（OCR型）"
                       />
                     </RadioGroup>
 
