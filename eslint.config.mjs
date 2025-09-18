@@ -132,7 +132,7 @@ const tsEslintConfigs = [
 ];
 
 export default pluginTypeScriptEslint.config(
-  { ignores: ["**/.next/**", "**/public/**"] },
+  { ignores: ["**/*"] },
   reactConfig,
   importConfig,
   ...tsEslintConfigs

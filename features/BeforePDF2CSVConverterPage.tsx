@@ -20,7 +20,7 @@ import TextInput from "@/components/text-input";
 import theme from "@/lib/theme";
 import { IPattern } from "@/features/PatternManagerpage";
 
-const PDF2CSVConverterPage: React.FC = () => {
+const BeforePDF2CSVConverterPage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [format, setFormat] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -169,23 +169,41 @@ const PDF2CSVConverterPage: React.FC = () => {
 
       const {
         data: { results },
-      } = await axios.post("/api/parser", formData, {
+      } = await axios.post("/api/before-parser", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      
+
+      const text = results;
+      let jsonString = text;
+      const jsonMatch =
+        text.match(/```json\n([\s\S]*?)\n```/) ||
+        text.match(/```\n([\s\S]*?)\n```/);
+      if (jsonMatch && jsonMatch[1]) {
+        jsonString = jsonMatch[1];
+      }
+
+      // Parse the JSON string into an actual array
+      let parsedData: Record<string, any>[];
+      try {
+        parsedData = JSON.parse(jsonString);
+      } catch (parseError) {
+        console.error("JSON parsing error:", parseError);
+        throw new Error("JSONデータの解析に失敗しました。");
+      }
+
       // Validate that we have an array
-      if (!Array.isArray(parsedData)) {
+      if (!Array.isArray(results)) {
         throw new Error("抽出されたデータが配列形式ではありません。");
       }
 
       // Validate array is not empty
-      if (parsedData.length === 0) {
+      if (results.length === 0) {
         throw new Error("データが抽出されませんでした。");
       }
 
-      downloadCSV(parsedData);
+      downloadCSV(results);
     } catch (error) {
       console.error("Error extracting data:", error);
       alert(
@@ -319,4 +337,4 @@ const PDF2CSVConverterPage: React.FC = () => {
   );
 };
 
-export default PDF2CSVConverterPage;
+export default BeforePDF2CSVConverterPage;
