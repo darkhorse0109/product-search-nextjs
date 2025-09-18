@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { FaFilePdf } from 'react-icons/fa6'
-import { FaLayerGroup } from 'react-icons/fa'
-import { ImSearch } from 'react-icons/im'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FaFilePdf } from "react-icons/fa6";
+import { FaLayerGroup } from "react-icons/fa";
+import { ImSearch } from "react-icons/im";
 
 const Header = () => {
-  const pathName = usePathname()
+  const pathName = usePathname();
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-50 via-white to-purple-50 shadow-lg border-b border-purple-100">
       <div className="container mx-auto px-4">
@@ -18,23 +18,63 @@ const Header = () => {
             </span>
           </Link>
           <div className="flex items-center space-x-10">
-            <Link href='/' className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${pathName === '/' ? 'text-blue-600 scale-105' : 'text-gray-700 hover:text-blue-600'}`}>
-              <span className='text-2xl'><ImSearch /></span>
-              <p className='ml-2 text-lg'>商品検索</p>
+            <Link
+              href="/"
+              className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${
+                pathName === "/"
+                  ? "text-blue-600 scale-105"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              <span className="text-2xl">
+                <ImSearch />
+              </span>
+              <p className="ml-2 text-lg">商品検索</p>
             </Link>
-            <Link href='/pdf-converter' className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${pathName === '/pdf-converter' ? 'text-blue-600 scale-105' : 'text-gray-700 hover:text-blue-600'}`}>
-              <span className='text-2xl'><FaFilePdf /></span>
-              <p className='ml-2 text-lg'>PDF変換</p>
+            <Link
+              href="/before-pdf-converter"
+              className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${
+                pathName === "/before-pdf-converter"
+                  ? "text-blue-600 scale-105"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              <span className="text-2xl">
+                <FaFilePdf />
+              </span>
+              <p className="ml-2 text-lg">PDF変換（旧）</p>
             </Link>
-            <Link href='/pattern-manager' className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${pathName === '/pattern-manager' ? 'text-blue-600 scale-105' : 'text-gray-700 hover:text-blue-600'}`}>
-              <span className='text-2xl'><FaLayerGroup /></span>
-              <p className='ml-2 text-lg'>パターン管理</p>
+            <Link
+              href="/pdf-converter"
+              className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${
+                pathName === "/pdf-converter"
+                  ? "text-blue-600 scale-105"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              <span className="text-2xl">
+                <FaFilePdf />
+              </span>
+              <p className="ml-2 text-lg">PDF変換（新）</p>
+            </Link>
+            <Link
+              href="/pattern-manager"
+              className={`flex items-center justify-center font-bold transition-all duration-300 ease-out ${
+                pathName === "/pattern-manager"
+                  ? "text-blue-600 scale-105"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              <span className="text-2xl">
+                <FaLayerGroup />
+              </span>
+              <p className="ml-2 text-lg">パターン管理</p>
             </Link>
           </div>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
