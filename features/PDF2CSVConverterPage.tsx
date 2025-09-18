@@ -174,18 +174,18 @@ const PDF2CSVConverterPage: React.FC = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
+      
       // Validate that we have an array
-      if (!Array.isArray(results)) {
+      if (!Array.isArray(parsedData)) {
         throw new Error("抽出されたデータが配列形式ではありません。");
       }
 
       // Validate array is not empty
-      if (results.length === 0) {
+      if (parsedData.length === 0) {
         throw new Error("データが抽出されませんでした。");
       }
 
-      downloadCSV(results);
+      downloadCSV(parsedData);
     } catch (error) {
       console.error("Error extracting data:", error);
       alert(
