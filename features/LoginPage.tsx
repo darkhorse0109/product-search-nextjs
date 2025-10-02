@@ -121,7 +121,7 @@ export default function LogInPage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-m-blue text-white hover:bg-m-blue-hover transition-colors duration-300"
+                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-m-blue text-white hover:bg-m-btn transition-colors duration-300"
               >
                 ログイン
               </Button>
@@ -132,7 +132,7 @@ export default function LogInPage() {
         <div className="w-full text-center text-sm flex items-center justify-center mt-6">
           アカウントをお持ちでない方は
           <Link href="/sign-up" className="flex items-center font-semibold">
-            <span className="text-m-blue-hover">こちら</span>
+            <span className="text-m-btn">こちら</span>
             <HiMiniArrowRightStartOnRectangle className="text-lg ml-3" />
           </Link>
         </div>

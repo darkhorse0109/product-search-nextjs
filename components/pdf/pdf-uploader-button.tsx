@@ -10,7 +10,7 @@ const PDFUploaderButton: React.FC<PDFUploaderButtonProps> = ({ onFileChange, inp
   return (
     <label
       htmlFor="pdf-upload"
-      className="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-300 ease-out"
+      className="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-300 ease-out mt-4"
       onDrop={(e) => {
         e.preventDefault()
         const files = e.dataTransfer.files

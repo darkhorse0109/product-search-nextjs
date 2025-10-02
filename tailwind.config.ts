@@ -53,7 +53,7 @@ const config: Config = {
         },
         "m-red": "#e73939",
         "m-blue": "#2296f3",
-        "m-blue-hover": "#1976D2",
+        "m-btn": "#1976D2",
       },
       borderRadius: {
         lg: "var(--radius)",
