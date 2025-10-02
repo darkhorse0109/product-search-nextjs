@@ -19,8 +19,10 @@ import PDFUploaderButton from "@/components/pdf/pdf-uploader-button";
 import TextInput from "@/components/text-input";
 import theme from "@/lib/theme";
 import { IPattern } from "@/features/PatternManagerpage";
+import { useAuth } from "@/providers/auth-provider";
 
 const PDF2CSVConverterPage: React.FC = () => {
+  const { user_id } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [format, setFormat] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,11 +38,13 @@ const PDF2CSVConverterPage: React.FC = () => {
       const {
         data: { patterns },
         status,
-      } = await axios.get("/api/pattern");
+      } = await axios.post("/api/common", { user_id });
       if (status === 200) {
         setPatterns(patterns);
-        setSelectedPattern(patterns[0].id);
-        setFormat(patterns[0].value);
+        if (patterns.length > 0) {
+          setSelectedPattern(patterns[0].id);
+          setFormat(patterns[0].value);
+        }
       }
       setIsLoading(false);
     };
