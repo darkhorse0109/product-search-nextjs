@@ -1,6 +1,5 @@
 import React from "react";
-import { ThemeProvider, TextField } from "@mui/material";
-import theme from "@/lib/theme";
+import { Textarea } from "@/components/ui/textarea";
 
 type TextInputProps = {
   value: string;
@@ -9,21 +8,12 @@ type TextInputProps = {
 
 const TextInput: React.FC<TextInputProps> = ({ value, onChange }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <TextField
-        rows={8}
-        multiline
-        variant="outlined"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="区別する形式を入力してください。"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            padding: "5px",
-          },
-        }}
-      />
-    </ThemeProvider>
+    <Textarea
+      rows={8}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder="区別する形式を入力してください。"
+    />
   );
 };
 

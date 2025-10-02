@@ -99,7 +99,7 @@ export default function SignupPage() {
           <div className="w-full mt-4 bg-green-50 border-l-4 border-green-400 p-4 text-sm text-green-700">
             <div className="flex flex-col items-center space-y-2">
               <span>{success}</span>
-              <Link href={`/login`} className="text-m-blue-hover font-semibold hover:underline flex items-center space-x-1">
+              <Link href="/login" className="text-m-btn font-semibold hover:underline flex items-center space-x-1">
                 <span>ログインページへ</span>
                 <HiMiniArrowRightStartOnRectangle className="text-lg" />
               </Link>
@@ -152,7 +152,7 @@ export default function SignupPage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-m-blue text-white hover:bg-m-blue-hover transition-colors duration-300"
+                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-m-blue text-white hover:bg-m-btn transition-colors duration-300"
               >
                 サインアップ
               </Button>
@@ -163,7 +163,7 @@ export default function SignupPage() {
         <div className="w-full text-center text-sm flex items-center justify-center mt-6">
           アカウントをお持ちの方は
           <Link href="/login" className="flex items-center font-semibold">
-            <span className="text-m-blue-hover">こちら</span>
+            <span className="text-m-btn">こちら</span>
             <HiMiniArrowRightStartOnRectangle className="text-lg ml-3" />
           </Link>
           </div>
