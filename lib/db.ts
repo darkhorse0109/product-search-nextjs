@@ -41,4 +41,17 @@ async function initializeDatabase(db: Connection) {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
     )
   `);
+
+  // Create 'users' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS users (
+      id CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+      deletedAt TIMESTAMP NULL
+    )
+  `);
 }

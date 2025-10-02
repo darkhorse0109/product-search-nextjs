@@ -1,6 +1,7 @@
 import { type PropsWithChildren } from 'react'
 import ReactQueryProvider from '@/providers/react-query-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
+import { AuthProvider } from '@/providers/auth-provider'
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -10,9 +11,11 @@ export default function Providers({ children }: PropsWithChildren) {
       enableSystem
       disableTransitionOnChange
     >
-      <ReactQueryProvider>
-        {children}
-      </ReactQueryProvider>
+      <AuthProvider>
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
