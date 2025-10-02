@@ -12,6 +12,7 @@ import {
   Chip,
   Box,
 } from "@mui/material";
+import { useAuth } from "@/providers/auth-provider";
 
 import LoadingIndicator from "@/components/loading-indicator";
 import { IoMdAdd as AddIcon } from "react-icons/io";
@@ -24,11 +25,13 @@ import { splitFormat, joinFormat } from "@/lib/utils";
 
 export interface IPattern {
   id: string;
+  user_id: string;
   name: string;
   value: string;
 }
 
 const PatternManagerPage: React.FC = () => {
+  const { user_id } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [patterns, setPatterns] = useState<IPattern[]>([]);
   const [editingPattern, setEditingPattern] = useState<IPattern | null>(null);
@@ -38,10 +41,7 @@ const PatternManagerPage: React.FC = () => {
   useEffect(() => {
     const fetchPatterns = async () => {
       setIsLoading(true);
-      const {
-        data: { patterns },
-        status,
-      } = await axios.get("/api/pattern");
+      const { data: { patterns }, status } = await axios.post("/api/common", { user_id });
       if (status === 200) {
         setPatterns(patterns);
       }
@@ -55,6 +55,7 @@ const PatternManagerPage: React.FC = () => {
     if (newPattern.name.trim() && newPattern.value.trim()) {
       const pattern: IPattern = {
         id: uuidv4(),
+        user_id,
         name: joinFormat(splitFormat(newPattern.name.trim())),
         value: joinFormat(splitFormat(newPattern.value.trim())),
       };
@@ -80,6 +81,7 @@ const PatternManagerPage: React.FC = () => {
     ) {
       const updatedPattern = {
         id: editingPattern.id,
+        user_id,
         name: joinFormat(splitFormat(editingPattern.name.trim())),
         value: joinFormat(splitFormat(editingPattern.value.trim())),
       };
