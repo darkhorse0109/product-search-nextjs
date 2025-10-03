@@ -122,7 +122,7 @@ export default function SignupPage() {
           </div>
 
           <div className="flex flex-col">
-            <div className="flex mt-6 mb-2">
+            <div className="flex items-center mt-6 mb-2">
               <Label htmlFor="password">パスワード</Label>
               <RequiredLabel />
             </div>
@@ -135,7 +135,7 @@ export default function SignupPage() {
           </div>
 
           <div className="flex flex-col">
-            <div className="flex mt-6 mb-2">
+            <div className="flex items-center mt-6 mb-2">
               <Label htmlFor="confirmPassword">パスワード（確認用）</Label>
               <RequiredLabel />
             </div>
@@ -152,7 +152,7 @@ export default function SignupPage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-m-blue text-white hover:bg-m-btn transition-colors duration-300"
+                className="w-full px-[30px] py-[4px] text-[18px] rounded-[1px] bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
               >
                 サインアップ
               </Button>
@@ -163,7 +163,7 @@ export default function SignupPage() {
         <div className="w-full text-center text-sm flex items-center justify-center mt-6">
           アカウントをお持ちの方は
           <Link href="/login" className="flex items-center font-semibold">
-            <span className="text-m-btn">こちら</span>
+            <span className="text-blue-600">こちら</span>
             <HiMiniArrowRightStartOnRectangle className="text-lg ml-3" />
           </Link>
           </div>
