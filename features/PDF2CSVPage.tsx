@@ -11,7 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import LoadingIndicator from "@/components/loading-indicator";
 import PDFUploaderButton from "@/components/pdf/pdf-uploader-button";
 import TextInput from "@/components/text-input";
-import { IPattern } from "@/features/PatternManagerpage";
+import { IPattern } from "@/features/PatternPage";
 import { useAuth } from "@/providers/auth-provider";
 
 const PDF2CSVConverterPage: React.FC = () => {

@@ -1,4 +1,4 @@
-import PatternManagerPage from '@/features/PatternManagerpage'
+import PatternManagerPage from '@/features/PatternPage'
 
 export default function PatternManager() {
   return <PatternManagerPage />
