@@ -6,11 +6,11 @@ import { FaFilePdf } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import LoadingIndicator from "@/components/loading-indicator";
 import PDFUploaderButton from "@/components/pdf/pdf-uploader-button";
-import TextInput from "@/components/text-input";
 import { IPattern } from "@/features/PatternPage";
 import { useAuth } from "@/providers/auth-provider";
 
@@ -258,7 +258,7 @@ const PDF2CSVConverterPage: React.FC = () => {
                         <FaFilePdf className="text-blue-500 text-3xl" />
                         <p className="flex-1 font-medium">{pdfFile.name}</p>
                         <Button onClick={clearPDF}
-                          className="w-auto h-auto bg-pink-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-pink-500/90"
+                          className="w-auto h-auto bg-red-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-red-500/90"
                         >
                           削除
                         </Button>
@@ -293,7 +293,7 @@ const PDF2CSVConverterPage: React.FC = () => {
 
                     <Label 
                       htmlFor="fileUpload" 
-                      className="cursor-pointer p-3 bg-m-btn text-white rounded text-center text-base"
+                      className="cursor-pointer p-3 bg-blue-600 text-white rounded text-center text-base"
                     >
                       ファイルを選択
                     </Label>
@@ -308,7 +308,7 @@ const PDF2CSVConverterPage: React.FC = () => {
                             <span className="flex-1 text-sm">{file.name}</span>
                             <Button
                               onClick={() => removeMultipleFile(idx)}
-                              className="w-auto h-auto bg-pink-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-pink-500/90"
+                              className="w-auto h-auto bg-red-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-red-500/90"
                             >
                               削除
                             </Button>
@@ -371,14 +371,18 @@ const PDF2CSVConverterPage: React.FC = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <TextInput value={format} onChange={setFormat} />
+                    <Textarea rows={8}
+                      value={format}
+                      onChange={(e) => setFormat(e.target.value)}
+                      placeholder="区別する形式を入力してください。"
+                    />
                   </div>
                 </div>
                 <div className="flex justify-center mt-auto">
                   <Button
                     onClick={handleConvert}
                     disabled={!pdfFile || !format.trim()}
-                    className="bg-m-btn px-8 py-6 rounded text-white text-base hover:bg-m-btn/90"
+                    className="bg-blue-600 px-8 py-6 rounded text-white text-base hover:bg-blue-700"
                   >
                     変換する
                   </Button>
