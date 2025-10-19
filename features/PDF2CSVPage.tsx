@@ -109,9 +109,7 @@ const PDF2CSVConverterPage: React.FC = () => {
     // Process data to handle multiple item numbers and equivalent items
     const processedData = data.flatMap((item) => {
       // Split item numbers if multiple exist
-      const itemNumbers = item["型番"]
-        ?.split(",")
-        .map((num: string) => num.trim()) || [""];
+      const itemNumbers = item["型番"] ?.split(",").map((num: string) => num.trim()) || [""];
 
       return itemNumbers.map((num: string, index: number) => {
         const newItem = { ...item };
@@ -156,8 +154,16 @@ const PDF2CSVConverterPage: React.FC = () => {
       .join("\n");
 
     // Generate CSV filename from PDF filename
-    const pdfFileName = pdfFile?.name || "extracted_data";
-    const csvFileName = pdfFileName.replace(/\.pdf$/i, ".csv");
+    let pdfFileName = "extracted_data";
+    if (fileMode === "single" && pdfFile?.name) {
+      pdfFileName = pdfFile.name;
+    } else if (
+      fileMode === "multiple" && multiplePdfFiles && Array.isArray(Array.from(multiplePdfFiles)) && multiplePdfFiles.length > 0
+    ) {
+      const fileNames = Array.from(multiplePdfFiles).map((file: File) => file.name.replace(/\.pdf$/i, ""));
+      pdfFileName = fileNames.join("_");
+    }
+    const csvFileName = pdfFileName + ".csv";
 
     // Create blob and download
     const blob = new Blob(["\uFEFF" + csvContent], {
@@ -173,15 +179,8 @@ const PDF2CSVConverterPage: React.FC = () => {
   };
 
   const handleConvert = async () => {
-    if (!pdfFile) {
-      alert("PDFファイルをアップロードしてください。");
-      return;
-    }
-
-    splitFormats = format
-      .split(/,|\n/)
-      .map((word) => word.replace(/\s+/g, "").trim())
-      .filter((word) => word !== "");
+    const numbers = pageNumbers.replace(/[^0-9,]/g, '').trim();
+    splitFormats = format.split(/,|\n/).map((word) => word.replace(/\s+/g, "").trim()).filter((word) => word !== "");
     if (splitFormats.length === 0) {
       alert("区別する形式を入力してください。");
       return;
@@ -191,9 +190,19 @@ const PDF2CSVConverterPage: React.FC = () => {
 
     try {
       const formData = new FormData();
-      formData.append("pdf", pdfFile);
+      if (fileMode === "single") {
+        if (pdfFile) formData.append("file", pdfFile);
+      } else {
+        if (multiplePdfFiles && multiplePdfFiles.length > 0) {
+          for (let i = 0; i < multiplePdfFiles.length; i++) {
+            const file = multiplePdfFiles[i];
+            if (file) formData.append("file", file);
+          }
+        }
+      }
       formData.append("formats", JSON.stringify(splitFormats));
       formData.append("target", target);
+      formData.append("numbers", numbers);
 
       const {
         data: { results },
@@ -203,24 +212,16 @@ const PDF2CSVConverterPage: React.FC = () => {
         },
       });
 
-      // Validate that we have an array
       if (!Array.isArray(results)) {
         throw new Error("抽出されたデータが配列形式ではありません。");
       }
-
-      // Validate array is not empty
       if (results.length === 0) {
         throw new Error("データが抽出されませんでした。");
       }
 
       downloadCSV(results);
     } catch (error) {
-      console.error("Error extracting data:", error);
-      alert(
-        `データの抽出中にエラーが発生しました: ${
-          error instanceof Error ? error.message : "不明なエラー"
-        }`
-      );
+      alert(`データの抽出中にエラーが発生しました: ${error instanceof Error ? error.message : "不明なエラー"}`);
     } finally {
       setIsLoading(false);
     }
@@ -381,7 +382,7 @@ const PDF2CSVConverterPage: React.FC = () => {
                 <div className="flex justify-center mt-auto">
                   <Button
                     onClick={handleConvert}
-                    disabled={!pdfFile || !format.trim()}
+                    disabled={(fileMode === "single" && !pdfFile) || (fileMode === "multiple" && (!multiplePdfFiles || multiplePdfFiles.length === 0)) || !format.trim()}
                     className="bg-blue-600 px-8 py-6 rounded text-white text-base hover:bg-blue-700"
                   >
                     変換する
