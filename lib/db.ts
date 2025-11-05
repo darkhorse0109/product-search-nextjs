@@ -49,6 +49,8 @@ async function initializeDatabase(db: Connection) {
       id VARCHAR(255) NOT NULL PRIMARY KEY DEFAULT (UUID()),
       email VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL,
+      balance INT NOT NULL,
+      subscription VARCHAR(255) NOT NULL DEFAULT 'Trial',
       
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

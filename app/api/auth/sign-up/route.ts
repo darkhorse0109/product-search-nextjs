@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
 
     const insertStr = `
       INSERT INTO users 
-        (email, password) 
-      VALUES (?, ?)
+        (email, password, balance, subscription) 
+      VALUES (?, ?, 300, 'Trial')
     `;
 
     const insertedId = await withDatabase(async (db) => {
