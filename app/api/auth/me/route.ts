@@ -57,6 +57,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       user_id,
       user_email,
+      user_balance: user.balance,
+      user_subscription: user.subscription,
       is_authenticated,
       access_token,
     });

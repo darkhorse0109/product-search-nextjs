@@ -11,6 +11,12 @@ export const env = {
   DB_USER: process.env.DB_USER || 'root',
   DB_PASSWORD: process.env.DB_PASSWORD || '',
   DB_NAME: process.env.DB_NAME || '',
+
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
+
+  NEXT_PUBLIC_STRIPE_PLUS_MONTHLY_LINK_URL: process.env.NEXT_PUBLIC_STRIPE_PLUS_MONTHLY_LINK_URL || ''
 }
 
 export const credits_per_page = [

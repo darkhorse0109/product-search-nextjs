@@ -4,11 +4,12 @@ import React, { createContext, useContext, useState, type ReactNode, useEffect }
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import LoadingIndicator from "@/components/loading-indicator";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 export interface AuthState {
   user_id: string;
   user_email: string;
+  user_balance: number;
+  user_subscription: string;
 }
 
 interface AuthContextType extends AuthState {
@@ -18,6 +19,8 @@ interface AuthContextType extends AuthState {
 const AuthContext = createContext<AuthContextType>({
   user_id: "",
   user_email: "",
+  user_balance: 0,
+  user_subscription: 'Trial',
   updateAuthState: () => {},
 });
 
@@ -28,6 +31,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [authState, setAuthState] = useState<AuthState>({
     user_id: "",
     user_email: "",
+    user_balance: 0,
+    user_subscription: 'Trial',
   });
 
   useEffect(() => {
@@ -46,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const { access_token, refresh_token } = JSON.parse(token);
-      const { data: { is_authenticated, user_id, user_email, access_token: new_at }} = await axios.post("/api/auth/me", {
+      const { data: { is_authenticated, user_id, user_email, user_balance, user_subscription, access_token: new_at }} = await axios.post("/api/auth/me", {
         access_token,
         refresh_token
       });
@@ -54,7 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (is_authenticated) {
         setAuthState({
           user_id,
-          user_email
+          user_email,
+          user_balance,
+          user_subscription
         });
         localStorage.setItem("jwt-token", JSON.stringify({
           access_token: new_at,

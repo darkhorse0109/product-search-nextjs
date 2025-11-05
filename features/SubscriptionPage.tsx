@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
@@ -9,13 +10,15 @@ import { FaArrowRight } from "react-icons/fa";
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-import { credits_per_page } from '@/lib/config';
+import { useAuth } from '@/providers/auth-provider';
+import { env, credits_per_page } from '@/lib/config';
 
 const SubscriptionPage = () => {
-  const [subscription, setSubscription] = useState<string>("Trial")
+  const router = useRouter()
+  const { user_email, user_subscription } = useAuth()
 
   const handlePlusPlanPurchase = () => {
-
+    router.push(`${env.NEXT_PUBLIC_STRIPE_PLUS_MONTHLY_LINK_URL}?prefilled_email=${user_email}`);
   }
 
   return (
@@ -23,7 +26,7 @@ const SubscriptionPage = () => {
       <div className='w-full bg-[#F1F4FF] rounded-2xl px-4 sm:px-6 lg:px-12 xl:px-16 py-16'>
         <div className="w-full relative flex-grow mx-auto grid md:grid-cols-2 gap-6 lg:gap-12">
           {/* Trial Plan */}
-          <div className={`relative h-[480px] flex flex-col rounded-xl shadow-sm ${subscription === "Trial" ? "bg-blue-200" : "bg-white"}`}>
+          <div className={`relative h-[480px] flex flex-col rounded-xl shadow-sm ${user_subscription === "Trial" ? "bg-blue-200" : "bg-white"}`}>
             <Image
               className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
               src="/icons/trial.png"
@@ -55,7 +58,7 @@ const SubscriptionPage = () => {
                 </li>
               </ul>
             </div>
-            {subscription === "Trial" && (
+            {user_subscription === "Trial" && (
             <div className="w-full mx-auto px-3 pb-8 mt-auto">
               <p className="text-center text-lg border-gray-700 shadow-md justify-center p-4 bg-white rounded font-bold">
                 現在のプラン
@@ -65,7 +68,7 @@ const SubscriptionPage = () => {
           </div>
 
           {/* Plus Plan */}
-          <div className={`relative h-[480px] flex flex-col rounded-xl border shadow-[0_30px_120px_rgba(47,71,186,0.2)] ${subscription === "Plus" ? "bg-blue-200" : "bg-white"}`}>
+          <div className={`relative h-[480px] flex flex-col rounded-xl border shadow-[0_30px_120px_rgba(47,71,186,0.2)] ${user_subscription === "Plus" ? "bg-blue-200" : "bg-white"}`}>
             <Image
               className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
               src="/icons/plus.png"
@@ -104,7 +107,7 @@ const SubscriptionPage = () => {
                 </li>
               </ul>
             </div>
-            { subscription === "Trial" ? (
+            { user_subscription === "Trial" ? (
               <div className="w-full px-3 pb-8 mt-auto">
                 <Button
                   variant="outline"
