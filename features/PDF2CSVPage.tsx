@@ -233,15 +233,11 @@ const PDF2CSVConverterPage: React.FC = () => {
 
   return (
     <div className="flex flex-col grow bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50">
-      <main className="flex flex-col container mx-auto px-4 py-10 grow">
+      <div className="flex flex-col grow">
         <div className="flex grow space-y-6">
           <div className="flex flex-col w-full grow">
-            <h1 className="text-4xl font-bold text-gray-700 tracking-tight">
-              PDF変換
-            </h1>
-
-            <div className="grid grid-cols-[60%,1fr] gap-10 w-full flex-grow mt-8">
-              <div className="flex flex-col w-full p-6 bg-white rounded-lg shadow-md">
+            <div className="grid grid-cols-1 lg:grid-cols-[60%,1fr] gap-10 w-full flex-grow">
+              <div className="flex flex-col w-full p-6 bg-white rounded-lg shadow-md min-h-[400px]">
                 <RadioGroup defaultValue={fileMode} className="flex items-center gap-8" onValueChange={(value) => setFileMode(value)}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="single" id="single" />
@@ -256,8 +252,8 @@ const PDF2CSVConverterPage: React.FC = () => {
                   pdfUrl && pdfFile ? (
                     <div className="flex flex-col flex-grow mt-4 w-full">
                       <div className="w-full flex items-center gap-3 p-3 border rounded-sm">
-                        <FaFilePdf className="text-blue-500 text-3xl" />
-                        <p className="flex-1 font-medium">{pdfFile.name}</p>
+                        <FaFilePdf className="shrink-0 text-blue-500 text-3xl" />
+                        <p className="grow shrink overflow-hidden whitespace-nowrap text-ellipsis font-medium">{pdfFile.name}</p>
                         <Button onClick={clearPDF}
                           className="w-auto h-auto bg-red-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-red-500/90"
                         >
@@ -305,8 +301,8 @@ const PDF2CSVConverterPage: React.FC = () => {
                             key={file.name + idx}
                             className="flex items-center gap-2 border rounded-sm p-2"
                           >
-                            <FaFilePdf className="text-blue-500 text-xl" />
-                            <span className="flex-1 text-sm">{file.name}</span>
+                            <FaFilePdf className="shrink-0 text-blue-500 text-xl" />
+                            <span className="grow shrink overflow-hidden whitespace-nowrap text-ellipsis text-sm">{file.name}</span>
                             <Button
                               onClick={() => removeMultipleFile(idx)}
                               className="w-auto h-auto bg-red-500 px-2 py-1 rounded-[2px] text-white text-xs hover:bg-red-500/90"
@@ -321,31 +317,31 @@ const PDF2CSVConverterPage: React.FC = () => {
                 )}
               </div>
               <div className="flex flex-col w-full px-6 py-8 bg-white rounded-lg shadow-md">
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-16">
+                <div className="flex flex-col gap-3 mb-3">
+                  <div className="flex flex-col gap-3 ">
                     <h2 className="text-lg font-semibold">分析タイプ</h2>
-                    <RadioGroup defaultValue={target} className="flex items-center gap-8" onValueChange={(value) => setTarget(value)}>
-                      <div className="flex items-center space-x-2">
+                    <RadioGroup defaultValue={target} className="flex items-start gap-6 ml-4" onValueChange={(value) => setTarget(value)}>
+                      <div className="w-28">
                         <RadioGroupItem value="PDF" id="PDF" />
-                        <Label htmlFor="PDF" className="text-base">PDF</Label>
+                        <Label htmlFor="PDF" className="ml-2 text-base">PDF</Label>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="w-28">
                         <RadioGroupItem value="OCR" id="OCR" />
-                        <Label htmlFor="OCR" className="text-base">OCR</Label>
+                        <Label htmlFor="OCR" className="ml-2 text-base">OCR</Label>
                       </div>
                     </RadioGroup>
                   </div>
 
-                  <div className="flex flex-col gap-3 mt-4">
+                  <div className="flex flex-col gap-3 mt-3">
                     <h2 className="text-lg font-semibold">ページを指定</h2>
-                    <RadioGroup defaultValue={pageMode} className="flex flex-col items-start gap-2" onValueChange={(value) => setPageMode(value)}>
-                      <div className="flex items-center space-x-2">
+                    <RadioGroup defaultValue={pageMode} className="flex items-start gap-6 ml-4" onValueChange={(value) => setPageMode(value)}>
+                      <div className="w-28">
                         <RadioGroupItem value="all" id="all" />
-                        <Label htmlFor="all" className="text-base">全ページ</Label>
+                        <Label htmlFor="all" className="ml-2 text-base">全ページ</Label>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="w-28">
                         <RadioGroupItem value="specific" id="specific" />
-                        <Label htmlFor="specific" className="text-base">特定ページ</Label>
+                        <Label htmlFor="specific" className="ml-2 text-base">特定ページ</Label>
                       </div>
                     </RadioGroup>
                     {pageMode === "specific" && (
@@ -360,7 +356,7 @@ const PDF2CSVConverterPage: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-3 mt-4">
+                  <div className="flex flex-col gap-3 mt-3">
                     <h2 className="text-lg font-semibold">パターン選択</h2>
                     <Select value={selectedPattern} onValueChange={(value) => handlePatternSelect(value)}>
                       <SelectTrigger className="w-full">
@@ -392,7 +388,7 @@ const PDF2CSVConverterPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

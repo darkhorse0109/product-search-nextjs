@@ -7,6 +7,9 @@ import { v4 as uuidv4 } from "uuid";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { updateDeleteDialog } from "@/stores/dialogs/dialogs.slice";
+import { useAppDispatch } from "@/stores/store";
+
 import { IoMdAdd as AddIcon } from "react-icons/io";
 import { RiEdit2Fill as EditIcon } from "react-icons/ri";
 import { MdDelete as DeleteIcon, MdCancel as CancelIcon } from "react-icons/md";
@@ -25,6 +28,7 @@ export interface IPattern {
 
 const PatternManagerPage: React.FC = () => {
   const { user_id } = useAuth();
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [patterns, setPatterns] = useState<IPattern[]>([]);
   const [editingPattern, setEditingPattern] = useState<IPattern | null>(null);
@@ -97,10 +101,18 @@ const PatternManagerPage: React.FC = () => {
 
   // delete pattern
   const handleDeletePattern = async (id: string) => {
-    const { status } = await axios.delete("/api/pattern", { data: { id } });
-    if (status === 200) {
-      setPatterns(patterns.filter((p) => p.id !== id));
-    }
+    dispatch(updateDeleteDialog({
+      isOpen: true,
+      title: "パターンを削除",
+      description: "パターンを削除してもよろしいですか？",
+      onDelete: async () => {
+        const { status } = await axios.delete("/api/pattern", { data: { id } });
+        if (status === 200) {
+          setPatterns(patterns.filter((p) => p.id !== id));
+        }
+        dispatch(updateDeleteDialog({ isOpen: false }));
+      }
+    }));
   };
 
   if (isLoading) {
@@ -109,18 +121,15 @@ const PatternManagerPage: React.FC = () => {
 
   return (
     <div className="flex flex-col grow bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50">
-      <main className="container mx-auto px-4 py-12">
+      <div className="flex flex-col grow">
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold text-gray-700 tracking-tight">
-              パターン管理
-            </h1>
+          <div className="flex items-center justify-end">
             <Button
               onClick={() => setShowAddForm(true)}
-              className="flex items-center bg-blue-600 hover:bg-blue-700 rounded-none text-white p-6"
+              className="flex items-center bg-blue-600 hover:bg-blue-700 rounded-none text-white p-4 sm:p-6"
             >
               <AddIcon className="text-2xl font-bold" />
-              <span className="text-lg">パターンを追加</span>
+              <span className="text-base sm:text-lg">パターンを追加</span>
             </Button>
           </div>
 
@@ -132,12 +141,12 @@ const PatternManagerPage: React.FC = () => {
                 <Input value={newPattern.name} 
                   onChange={(e) => setNewPattern({ ...newPattern, name: e.target.value})}
                   placeholder="パターン名（例: パターンー1）"
-                  className="rounded-sm px-3 py-5"
+                  className="rounded-sm px-3 py-5 overflow-hidden whitespace-nowrap text-ellipsis"
                 />
                 <Input value={newPattern.value}
                   onChange={(e) => setNewPattern({ ...newPattern, value: e.target.value})}
                   placeholder="パターン値（例: NO, 品名, 型番, 数量, 単価, 金額, 同等品, 原本情報）"
-                  className="rounded-sm px-3 py-5"
+                  className="rounded-sm px-3 py-5 overflow-hidden whitespace-nowrap text-ellipsis"
                 />
                 <div className="flex gap-5">
                   <Button onClick={handleAddPattern}
@@ -171,12 +180,12 @@ const PatternManagerPage: React.FC = () => {
                     <Input value={editingPattern.name}
                       onChange={(e) => setEditingPattern({ ...editingPattern, name: e.target.value })}
                       placeholder="パターン名（例: パターンー1）"
-                      className="rounded-sm px-3 py-5"
+                      className="rounded-sm px-3 py-5 overflow-hidden whitespace-nowrap text-ellipsis"
                     />
                     <Input value={editingPattern.value}
                       onChange={(e) => setEditingPattern({ ...editingPattern, value: e.target.value })}
                       placeholder="パターン値（例: NO, 品名, 型番, 数量, 単価, 金額, 同等品, 原本情報）"
-                      className="rounded-sm px-3 py-5"
+                      className="rounded-sm px-3 py-5 overflow-hidden whitespace-nowrap text-ellipsis"
                     />
                     <div className="flex gap-5">
                       <Button onClick={handleEditPattern}
@@ -196,23 +205,25 @@ const PatternManagerPage: React.FC = () => {
                   </div>
                 ) : (
                   // Display mode
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg">{pattern.name}</h3>
-                      <div className="inline-flex border px-4 py-1.5 text-m-btn text-sm border-m-btn rounded-full mt-2">
+                  <div className="w-full flex items-center justify-between">
+                    <div className="flex flex-col shrink overflow-hidden">
+                      <h3 className="font-bold text-lg overflow-hidden whitespace-nowrap text-ellipsis">{pattern.name}</h3>
+                      <div className="border px-4 py-1.5 text-m-btn text-sm border-m-btn rounded-full mt-2 overflow-hidden whitespace-nowrap text-ellipsis">
                         {pattern.value}
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex shrink-0 gap-4 sm:gap-8 ml-6">
                       <Button
+                        variant="ghost"
                         onClick={() => setEditingPattern(pattern)}
-                        className="text-blue-600 text-2xl hover:text-blue-700"
+                        className="w-auto h-auto p-0 text-blue-600 text-2xl hover:text-blue-700"
                       >
                         <EditIcon />
                       </Button>
                       <Button
+                        variant="ghost"
                         onClick={() => handleDeletePattern(pattern.id)}
-                        className="text-red-500 text-2xl hover:text-red-600"
+                        className="w-auto h-auto p-0 text-red-500 text-2xl hover:text-red-600"
                       >
                         <DeleteIcon />
                       </Button>
@@ -230,7 +241,7 @@ const PatternManagerPage: React.FC = () => {
             </p>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 };

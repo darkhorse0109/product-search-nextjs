@@ -1,6 +1,8 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import LoadingIndicator from '@/components/loading-indicator'
 import PlatformProducts from '@/components/platform-products'
 import TopProducts from '@/components/top-products'
@@ -29,7 +31,11 @@ const SearchPage = () => {
     )
   }
 
-  const { jan_code, amazon_products, yahoo_products, rakuten_products } = data as ProductResponse
+  const jan_code = data?.jan_code
+  const amazon_products = data?.amazon_products || []
+  const yahoo_products = data?.yahoo_products || []
+  const rakuten_products = data?.rakuten_products || []
+
   const allProducts = [
     ...amazon_products,
     ...yahoo_products,
@@ -42,42 +48,29 @@ const SearchPage = () => {
 
   return (
     <div className="flex flex-col grow bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50">
-      <main className="container mx-auto px-4 py-12">
-        <div className="space-y-6">
-          <h1 className="text-4xl font-bold text-gray-700 tracking-tight">
-            製品比較
-          </h1>
-
+      <div className="flex flex-col grow">
+        <div className="flex flex-col grow space-y-6">
           <form onSubmit={handleSearch} className="flex items-center gap-4 w-full">
             <div className="flex-1">
-              <input
+              <Input
                 ref={searchInputRef}
                 type="text"
-                placeholder="商品名や型番を入力"
+                placeholder="型番や商品名を入力（例: 4518340264816やEA628W-25B）"
                 defaultValue={searchKeyword}
-                className="w-full px-4 py-3 rounded-sm border border-gray-200 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         transition-all duration-200 bg-white
-                         placeholder:text-gray-400"
+                className="rounded-sm px-3 py-5 overflow-hidden whitespace-nowrap text-ellipsis"
               />
             </div>
-            <button
-              type="submit"
-              className="px-8 py-3 rounded text font-bold tracking-widest
-                       bg-gradient-to-r from-blue-500 to-cyan-500
-                       text-white transition-all duration-300
-                       hover:from-blue-600 hover:to-cyan-600
-                       transform hover:scale-x-105
-                       focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            <Button type="submit"
+              className="flex items-center bg-blue-600 hover:bg-blue-700 rounded-none text-white px-8"
             >
               検索
-            </button>
+            </Button>
           </form>
 
           {jan_code && (
             <>
               <p className="flex items-center gap-2 bg-gradient-to-r from-gray-50 to-white p-4 rounded shadow-sm">
-                <span className="font-mono text bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent font-semibold tracking-wide">
+                <span className="font-mono text bg-gradient-to-r from-m-purple to-m-blue bg-clip-text text-transparent font-semibold tracking-wide">
                   JAN Code:
                 </span>
                 <span className="font-mono text bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent font-medium tracking-wider">
@@ -93,7 +86,7 @@ const SearchPage = () => {
             </>
           )}
         </div>
-      </main>
+      </div>
     </div>
   )
 }
