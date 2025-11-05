@@ -1,4 +1,5 @@
 import Link from "next/link";
+import UserBalance from "@/components/navigation/user-balance";
 import HamburgerMenu from "@/components/navigation/hamburger-menu";
 
 const MainHeader = () => {
@@ -12,7 +13,10 @@ const MainHeader = () => {
           PDF変換と製品比較
         </span>
       </Link>
-      <HamburgerMenu />
+      <div className="flex gap-4 items-center">
+        <UserBalance />
+        <HamburgerMenu />
+      </div>
     </header>
   );
 };
