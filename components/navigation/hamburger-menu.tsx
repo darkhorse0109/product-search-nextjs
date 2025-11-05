@@ -85,7 +85,7 @@ const HamburgerMenu = () => {
             <DropdownMenuItem asChild key={index}>
               <Link
                 href={item.href}
-                className="flex items-center justify-between px-6 py-4 bg-white outline-none rounded transition-colors group hover:cursor-pointer hover:bg-m-blue"
+                className="flex items-center justify-between px-6 py-4 rounded transition-colors group hover:cursor-pointer bg-white hover:bg-m-blue"
               >
                 <div className="flex items-center space-x-3">
                   <item.icon className="h-5 w-5 group-hover:text-white" />
