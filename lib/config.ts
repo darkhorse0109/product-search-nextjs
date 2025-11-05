@@ -12,3 +12,36 @@ export const env = {
   DB_PASSWORD: process.env.DB_PASSWORD || '',
   DB_NAME: process.env.DB_NAME || '',
 }
+
+export const credits_per_page = [
+  {
+    page: "10ページ未満",
+    pdf: "1クレジット",
+    ocr: "2クレジット"
+  },
+  {
+    page: "20ページ未満",
+    pdf: "2クレジット",
+    ocr: "4クレジット"
+  },
+  {
+    page: "30ページ未満",
+    pdf: "3クレジット",
+    ocr: "6クレジット"
+  },
+  {
+    page: "50ページ未満",
+    pdf: "5クレジット",
+    ocr: "10クレジット"
+  },
+  {
+    page: "100ページ未満",
+    pdf: "10クレジット",
+    ocr: "20クレジット"
+  },
+  {
+    page: "100ページ以上",
+    pdf: "20クレジット",
+    ocr: "40クレジット"
+  },
+]

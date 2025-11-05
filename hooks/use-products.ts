@@ -17,11 +17,11 @@ function useProducts(keyword: string, defaultValue: ProductResponse) {
           return DEFAULT_PRODUCT_RESPONSE
         }
         
-        const response = await axios.post<ProductResponse>('/api/search', {
+        const { data: products} = await axios.post<ProductResponse>('/api/search', {
           keyword,
         })
 
-        return response.data.jan_code ? response.data : defaultValue
+        return products.jan_code ? products : defaultValue
       } catch (error) {
         console.error('Product search error:', error)
         return defaultValue

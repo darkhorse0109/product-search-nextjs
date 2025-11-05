@@ -10,11 +10,11 @@ const tableHeaders = ['ランキング', '商品画像', 'ショップ', '商品
 
 const TopProducts = ({ products }: TopProductsProps) => {
   return (
-    <div className="relative p-8 bg-gray-100 rounded-xl shadow-[5px_5px_15px_#d1d1d1,-5px_-5px_15px_#ffffff]">
+    <div className="relative p-5 sm:p-8 bg-gray-100 rounded-xl shadow-[5px_5px_15px_#d1d1d1,-5px_-5px_15px_#ffffff]">
       <h2 className="text-3xl font-bold mb-8 text-gray-700 tracking-wide bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent text-center">
         価格比較
       </h2>
-      <div className="text-sm text-gray-500 mb-8 space-y-1 pl-4 border-l-2 border-gray-200">
+      <div className="text-sm text-gray-500 mb-8 space-y-1 pl-4 border-l-4 border-gray-200">
         <p>※ 経時情報からECサイトの最安値商品を表示しています。</p>
         <p>※ APIを通して取得できないデータは除外されています。</p>
       </div>
@@ -110,7 +110,7 @@ const TopProducts = ({ products }: TopProductsProps) => {
                   </div>
 
                   <div className="col-span-1 flex items-center justify-center">
-                    <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 
+                    <span className="text-lg font-bold bg-gradient-to-r from-m-purple to-m-blue 
                                    bg-clip-text text-transparent">
                       ¥{product.price.toLocaleString()}
                     </span>
@@ -122,10 +122,9 @@ const TopProducts = ({ products }: TopProductsProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-6 py-3 rounded text-sm font-medium
-                               bg-gradient-to-r from-blue-500 to-cyan-500
+                               bg-gradient-to-r from-m-purple to-m-blue
                                text-white transition-all duration-300
                                transform hover:scale-105
-                               hover:from-blue-600 hover:to-cyan-600
                                text-center"
                     >
                       商品を見る

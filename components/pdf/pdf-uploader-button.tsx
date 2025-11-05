@@ -24,7 +24,7 @@ const PDFUploaderButton: React.FC<PDFUploaderButtonProps> = ({ onFileChange, inp
     >
       <div className="flex flex-col items-center justify-center pt-5 pb-6">
         <UploadCloud className="w-12 h-12 mb-4 text-gray-500" />
-        <p className="mb-2 text-sm text-gray-500">
+        <p className="mb-2 text-sm text-gray-500 px-8 text-center">
           <span className="font-semibold">PDFクリックしてアップロードする</span> か、ドラッグアンドドロップしてください
         </p>
       </div>

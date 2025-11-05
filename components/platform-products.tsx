@@ -12,7 +12,7 @@ const tableHeaders = ['商品画像', 'ショップ', '商品名', '価格（税
 
 const PlatformProducts = ({ amazon_products, yahoo_products, rakuten_products }: PlatformProductsProps) => {
   return (
-    <div className="relative p-8 bg-gray-100 rounded-xl shadow-[5px_5px_15px_#d1d1d1,-5px_-5px_15px_#ffffff]">
+    <div className="relative p-5 sm:p-8 bg-gray-100 rounded-xl shadow-[5px_5px_15px_#d1d1d1,-5px_-5px_15px_#ffffff]">
       <h2 className="text-3xl font-bold mb-8 text-gray-700 tracking-wide bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent text-center">
         プラットフォーム別商品比較
       </h2>
@@ -50,12 +50,21 @@ const PlatformProducts = ({ amazon_products, yahoo_products, rakuten_products }:
                     >
                       <div className="col-span-1 flex items-center justify-center">
                         <div className="relative w-20 h-20 rounded overflow-hidden bg-white">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-contain p-1"
-                          />
+                          {product.image ? (
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              className="object-contain p-1"
+                            />
+                          ) : (
+                            <Image
+                              src="/no-image.png"
+                              alt="NO-IMAGE"
+                              fill
+                              className="absolute object-cover"
+                            />
+                          )}
                         </div>
                       </div>
 
@@ -86,7 +95,7 @@ const PlatformProducts = ({ amazon_products, yahoo_products, rakuten_products }:
                       </div>
 
                       <div className="col-span-1 flex items-center justify-center">
-                        <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 
+                        <span className="text-lg font-bold bg-gradient-to-r from-m-purple to-m-blue 
                                        bg-clip-text text-transparent">
                           ¥{product.price.toLocaleString()}
                         </span>
@@ -98,10 +107,9 @@ const PlatformProducts = ({ amazon_products, yahoo_products, rakuten_products }:
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-block px-6 py-3 rounded text-sm font-medium
-                                   bg-gradient-to-r from-blue-500 to-cyan-500
+                                   bg-gradient-to-r from-m-purple to-m-blue
                                    text-white transition-all duration-300
                                    transform hover:scale-105
-                                   hover:from-blue-600 hover:to-cyan-600
                                    text-center"
                         >
                           商品を見る
