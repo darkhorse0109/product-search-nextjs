@@ -51,6 +51,7 @@ async function initializeDatabase(db: Connection) {
       password VARCHAR(255) NOT NULL,
       balance INT NOT NULL,
       subscription VARCHAR(255) NOT NULL DEFAULT 'Trial',
+      stripe_customer_id VARCHAR(255),
       
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

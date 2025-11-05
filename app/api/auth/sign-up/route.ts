@@ -1,6 +1,7 @@
 import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { hashedPassword } from "@/lib/utils";
+import { env } from "@/lib/config";
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
     const insertStr = `
       INSERT INTO users 
         (email, password, balance, subscription) 
-      VALUES (?, ?, 300, 'Trial')
+      VALUES (?, ?, ${env.CREDITS_PER_MONTH_FOR_FREE_PLAN}, 'Trial')
     `;
 
     const insertedId = await withDatabase(async (db) => {
