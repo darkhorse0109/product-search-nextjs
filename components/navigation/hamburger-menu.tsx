@@ -10,6 +10,7 @@ import { FaFilePdf } from "react-icons/fa6";
 import { FaLayerGroup } from "react-icons/fa";
 import { ImSearch } from "react-icons/im";
 import { IoDiamondOutline } from "react-icons/io5";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +47,9 @@ const HamburgerMenu = () => {
     { type: "separator" },
     { icon: ImSearch, label: "商品検索", href: "/product-search" },
     { type: "separator" },
-    { icon: IoDiamondOutline, label: "サブスクリプション", href: "/subscription" }
+    { icon: IoDiamondOutline, label: "サブスクリプション", href: "/subscription" },
+    { type: "separator" },
+    { icon: RiLogoutBoxRLine, label: "ログアウト", href: "/logout" },
   ];
 
   return (
