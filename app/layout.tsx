@@ -4,6 +4,8 @@ import HolyLoader from "holy-loader";
 import { type Metadata, type Viewport } from "next";
 import Providers from "./providers";
 import ScrollTopButton from "@/components/scroll-top-button";
+import TailwindIndicator from "@/components/tailwind-indicator";
+import DeleteConfirmationDialog from "@/components/dialog/delete-confirmation-dialog";
 import { env } from "@/lib/config";
 import { notoSansJP } from "@/lib/fonts";
 
@@ -70,6 +72,8 @@ export default function RootLayout({
           <Providers>
             {children}
             <ScrollTopButton />
+            <TailwindIndicator />
+            <DeleteConfirmationDialog />
           </Providers>
         </body>
       </html>
