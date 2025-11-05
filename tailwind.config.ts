@@ -52,7 +52,8 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
         "m-red": "#e73939",
-        "m-blue": "#2296f3",
+        "m-purple": "#9333ea",
+        "m-blue": "#2563eb",
         "m-btn": "#1976D2",
       },
       borderRadius: {
