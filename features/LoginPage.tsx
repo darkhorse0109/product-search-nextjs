@@ -70,8 +70,8 @@ export default function LogInPage() {
   };
 
   return (
-    <div className="w-[450px] m-auto">
-      <div className="bg-white w-full m-4 px-10 pt-8 pb-10">
+    <div className="w-full max-w-[450px] px-4 sm:px-0 sm:w-[450px] m-auto">
+      <div className="bg-white w-full px-6 sm:px-10 pt-8 pb-10">
         <figure className="flex justify-center mb-5">
           <Image
             src="/android-chrome-512x512.png"
