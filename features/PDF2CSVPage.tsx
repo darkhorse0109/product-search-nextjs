@@ -13,6 +13,7 @@ import LoadingIndicator from "@/components/loading-indicator";
 import PDFUploaderButton from "@/components/pdf/pdf-uploader-button";
 import { IPattern } from "@/features/PatternPage";
 import { useAuth } from "@/providers/auth-provider";
+import { getPdfPageCount } from "@/lib/utils";
 
 const PDF2CSVConverterPage: React.FC = () => {
   const { user_id } = useAuth();
@@ -185,6 +186,8 @@ const PDF2CSVConverterPage: React.FC = () => {
       alert("区別する形式を入力してください。");
       return;
     }
+
+    const totalPageCount = await getPdfPageCount(fileMode, pdfFile, multiplePdfFiles)
 
     setIsLoading(true);
 

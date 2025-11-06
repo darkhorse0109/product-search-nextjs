@@ -24,3 +24,32 @@ export const comparePassword = async (
 ) => {
   return await bcryptjs.compare(password, hashedPassword);
 };
+
+export async function getPdfPageCount(
+  fileMode: string,
+  pdfFile: File | null,
+  multiplePdfFiles: FileList | null
+): Promise<number> {
+  // @ts-ignore
+  const pdfjsLib = await import("pdfjs-dist/build/pdf");
+  // @ts-ignore
+  const pdfWorker = await import("pdfjs-dist/build/pdf.worker")
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker
+
+  async function getFilePageCount(file: File): Promise<number> {
+    const arrayBuffer = await file.arrayBuffer();
+    const doc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    return doc.numPages;
+  }
+
+  if (fileMode === "single" && pdfFile) {
+    return await getFilePageCount(pdfFile);
+  }
+
+  if (fileMode === "multiple" && multiplePdfFiles && multiplePdfFiles.length) {
+    const counts = await Promise.all(Array.from(multiplePdfFiles).map(getFilePageCount));
+    return counts.reduce((a, b) => a + b, 0);
+  }
+
+  return 0;
+}
