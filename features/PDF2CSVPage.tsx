@@ -13,12 +13,16 @@ import LoadingIndicator from "@/components/loading-indicator";
 import PDFUploaderButton from "@/components/pdf/pdf-uploader-button";
 import { IPattern } from "@/features/PatternPage";
 import { useAuth } from "@/providers/auth-provider";
-import { getPdfPageCount } from "@/lib/utils";
+import InformationDialog from "@/components/dialog/information-dialog";
+import { InformationProps } from "@/components/dialog/information-dialog";
+import { getConsumptionCredits, getPdfPageCount } from "@/lib/utils";
 
 const PDF2CSVConverterPage: React.FC = () => {
-  const { user_id } = useAuth();
+  const { user_id, user_balance, updateAuthState } = useAuth();
   const [fileMode, setFileMode] = useState<string>("single");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [information, setInformation] = useState<InformationProps | null>(null);
 
   // For multiple file mode
   const multipleFileInputRef = useRef<HTMLInputElement>(null);
@@ -188,6 +192,21 @@ const PDF2CSVConverterPage: React.FC = () => {
     }
 
     const totalPageCount = await getPdfPageCount(fileMode, pdfFile, multiplePdfFiles)
+    const consumption = getConsumptionCredits(target, totalPageCount)
+    
+    if (user_balance < consumption) {
+      const description = `   −　分析タイプ　　　　　　　${target}
+                              −　総分析ページ数　　　　　${totalPageCount}
+                              −　必要なクレジット　　　　${consumption}
+                              −　現在のクレジット残数　　${user_balance}`;
+      setInformation({
+        open: true,
+        title: "クレジットが不足しています",
+        description,
+      });
+
+      return;
+    }
 
     setIsLoading(true);
 
@@ -223,6 +242,14 @@ const PDF2CSVConverterPage: React.FC = () => {
       }
 
       downloadCSV(results);
+
+      await axios.post("/api/credit", {
+        user_id,
+        user_balance,
+        consumption,
+      });
+
+      updateAuthState({ user_balance: user_balance - consumption });
     } catch (error) {
       alert(`データの抽出中にエラーが発生しました: ${error instanceof Error ? error.message : "不明なエラー"}`);
     } finally {
@@ -392,6 +419,18 @@ const PDF2CSVConverterPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {information && (
+        <InformationDialog
+          open={information.open}
+          onClose={() =>
+            setInformation((prev) => (prev ? { ...prev, open: false } : null))
+          }
+          title={information.title}
+          description={information.description}
+          isCreditButton
+        />
+      )}
     </div>
   );
 };

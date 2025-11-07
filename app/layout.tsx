@@ -72,7 +72,7 @@ export default function RootLayout({
           <Providers>
             {children}
             <ScrollTopButton />
-            <TailwindIndicator />
+            {env.NEXT_PUBLIC_APP_ENV === "staging" && <TailwindIndicator />}
             <DeleteConfirmationDialog />
           </Providers>
         </body>
