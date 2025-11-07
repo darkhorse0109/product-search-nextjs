@@ -53,3 +53,14 @@ export async function getPdfPageCount(
 
   return 0;
 }
+
+export function getConsumptionCredits(target: string, pageCount: number) {
+  let consumption = 20;
+  if (pageCount <= 100) consumption = 10;
+  if (pageCount <= 50) consumption = 5;
+  if (pageCount <= 30) consumption = 3;
+  if (pageCount <= 20) consumption = 2;
+  if (pageCount <= 10) consumption = 1;
+  if (target === "OCR") consumption *= 2;
+  return consumption
+}
